@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ESP32 BLE Environmental Sensor</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <header class="header">
+      <div>
+        <h1>ESP32 BLE Sensor</h1>
+        <p class="subtitle">Environmental Sensing Service (0x181A)</p>
+      </div>
+      <div class="controls">
+        <span id="status-badge" class="badge badge-idle">연결 대기</span>
+        <button id="connect-btn" class="btn-primary" type="button">센서 연결</button>
+      </div>
+    </header>
+
+    <div id="compat-warning" class="notice" hidden>
+      이 브라우저는 Web Bluetooth API를 지원하지 않습니다. 데스크탑 또는 Android의 Chrome·Edge에서 열어주세요.
+    </div>
+
+    <div id="error-banner" class="notice notice-error" hidden></div>
+
+    <section class="cards" aria-label="실시간 측정값">
+      <article class="card card-co2">
+        <div class="card-top">
+          <span class="label">CO₂</span>
+          <span id="aq-badge" class="aq-pill aq-unknown">--</span>
+        </div>
+        <div class="metric">
+          <span id="co2-val" class="value">---</span>
+          <span class="unit">ppm</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <span class="label">온도</span>
+        </div>
+        <div class="metric">
+          <span id="temp-val" class="value">--.-</span>
+          <span class="unit">°C</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-top">
+          <span class="label">습도</span>
+        </div>
+        <div class="metric">
+          <span id="hum-val" class="value">--.-</span>
+          <span class="unit">%</span>
+        </div>
+      </article>
+    </section>
+
+    <section class="panel" aria-label="CO2 추이">
+      <div class="panel-header">
+        <h2>CO₂ 추이 (최근 60회)</h2>
+        <span id="updated-at" class="meta">업데이트 없음</span>
+      </div>
+      <div class="chart-wrap">
+        <svg id="co2-chart" viewBox="0 0 600 140" preserveAspectRatio="none" role="img" aria-label="CO2 추이 그래프">
+          <line x1="0" y1="70" x2="600" y2="70" class="chart-baseline" />
+          <path id="chart-area" class="chart-area" d="" />
+          <path id="chart-line" class="chart-line" d="" />
+        </svg>
+        <div class="chart-axis">
+          <span id="chart-min">--</span>
+          <span id="chart-max">--</span>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span id="device-info">기기 미연결</span>
+      <a href="https://github.com/alphaorderly/ble-sensor" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

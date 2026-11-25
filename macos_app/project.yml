@@ -1,0 +1,65 @@
+name: EnvSensorWidget
+options:
+  bundleIdPrefix: io.github.alphaorderly
+  deploymentTarget:
+    macOS: "14.0"
+  xcodeVersion: "16.0"
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    MACOSX_DEPLOYMENT_TARGET: "14.0"
+    ARCHS: arm64
+    MARKETING_VERSION: "1.0.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+targets:
+  EnvSensorWidget:
+    type: application
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: EnvSensorHostApp
+        excludes:
+          - Info.plist
+          - EnvSensorHostApp.entitlements
+      - path: Shared
+    dependencies:
+      - target: EnvSensorWidgetExtension
+        embed: true
+        codeSign: false
+    settings:
+      base:
+        PRODUCT_NAME: EnvSensorWidget
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.alphaorderly.EnvSensorWidget
+        INFOPLIST_FILE: EnvSensorHostApp/Info.plist
+        CODE_SIGN_ENTITLEMENTS: EnvSensorHostApp/EnvSensorHostApp.entitlements
+        GENERATE_INFOPLIST_FILE: NO
+        COMBINE_HIDPI_IMAGES: YES
+        LD_RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/../Frameworks"
+
+  EnvSensorWidgetExtension:
+    type: app-extension
+    platform: macOS
+    deploymentTarget: "14.0"
+    sources:
+      - path: EnvSensorWidgetExtension
+        excludes:
+          - Info.plist
+          - EnvSensorWidgetExtension.entitlements
+      - path: Shared
+    settings:
+      base:
+        PRODUCT_NAME: EnvSensorWidgetExtension
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.alphaorderly.EnvSensorWidget.Widget
+        INFOPLIST_FILE: EnvSensorWidgetExtension/Info.plist
+        CODE_SIGN_ENTITLEMENTS: EnvSensorWidgetExtension/EnvSensorWidgetExtension.entitlements
+        GENERATE_INFOPLIST_FILE: NO
+        SKIP_INSTALL: YES
+        APPLICATION_EXTENSION_API_ONLY: YES
+        LD_RUNPATH_SEARCH_PATHS:
+          - "$(inherited)"
+          - "@executable_path/../Frameworks"
+          - "@executable_path/../../../../Frameworks"
